@@ -90,13 +90,10 @@ function updateCartModal() {
                 <p>Qtd: ${item.quantity}</p>
                 <p class="font-medium mt-2">R$ ${item.price.toFixed(2)}</p>
             </div>
-        
 
-            
-            <button>
+            <button class="remove-from-cart-btn">
                 remover
             </button>
-            
 
         </div>
 
@@ -112,4 +109,8 @@ function updateCartModal() {
         currency: "BRL"
     });
 
+    cartCount.innerText = cart.length;
+
 }
+
+// funcao para remover o item do carrinho
