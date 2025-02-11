@@ -152,14 +152,50 @@ addressInput.addEventListener("input", function(event) {
     // 
 })
 
+// finalizar pedido
 checkoutBtn.addEventListener("click", function() {
-    if(cart.length === 0) return;
+    const isOpen = checkRestOpen();
+    if(!isOpen){
+        
+        Toastify({
+            text: "Ops o Restaurante está fechado!",
+            duration: 3000,
+            close: true,
+            gravity: "top", // `top` or `bottom`
+            position: "left", // `left`, `center` or `right`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            style: {
+            background: "#ef4444",
+            },
+        }).showToast();
 
+        return;
+    }
+
+    if(cart.length === 0) return;
     if(addressInput.value === "") {
         addressWarn.classList.remove("hidden")
         addressInput.classList.add("border-red-500")
         return;
     }
+
+
+    // enviar o pedido para api whats
+
+    const cartItems = cart.map((item) => {
+        return (
+            `${item.name} Quantidade:: (${item.quantity}) Preço: R$${item.price} |`
+        )
+    }).join("")
+
+    const message = encodeURIComponent(cartItems)
+    const phone = "5581982013448"
+
+    window.open(`https://wa.me/${phone}?text=${message} Endereço: ${addressInput.value}`, "_black")
+
+    cart = [];
+    updateCartModal();
+
 })
 
 // verificar a hora e manipular o card horario
